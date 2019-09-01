@@ -1,8 +1,15 @@
 package com.askert.app.service.awsUtils;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+
 public abstract class AwsAuthentication {
 
-	public String authenticateAWS() {
-		return null;}
+	public static AWSCredentials authenticateAWS() {
+		AWSCredentials credentials = new BasicAWSCredentials(
+				  "<AWS accesskey>", 
+				  "<AWS secretkey>"
+				);
+		return credentials;}
 	
 }
