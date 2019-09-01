@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,7 @@ public class UserController {
 	@PostMapping("/add")
 	ResponseEntity<Users> createUser(@Valid @RequestBody Users user) throws URISyntaxException {
 		log.info("Request to create user: {}", user);
+		user.setPwd(new String(new Base64().encode(user.getPwd().getBytes())));
 		Users result = usersRepository.save(user);
 		return ResponseEntity.created(new URI("/api/user/add/" + result.getId())).body(result);
 	}
@@ -72,8 +74,9 @@ public class UserController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	ResponseEntity<Users> updateGroup(@Valid @RequestBody Users user) {
+	ResponseEntity<Users> updateUser(@Valid @RequestBody Users user) {
 		log.info("Request to update user: {}", user);
+		user.setPwd(new String(new Base64().encode(user.getPwd().getBytes())));
 		Users result = usersRepository.save(user);
 		return ResponseEntity.ok().body(result);
 	}
